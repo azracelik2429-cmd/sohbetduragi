@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SohbetDurağı | Yeni Dostluklar</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101323;color:#fff;font-family:Arial,sans-serif}
+header{padding:20px;background:#191e35;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:bold;color:#a98bff}
+.logo span{color:#fff}
+button{border:0;border-radius:10px;padding:12px 17px;background:#8060ed;color:white;font-weight:bold}
+main{padding:22px;max-width:850px;margin:auto}
+.hero{text-align:center;padding:45px 10px}
+.hero h1{font-size:32px;margin-bottom:12px}
+.hero h1 span{color:#a98bff}
+.hero p{color:#b7bdd2;line-height:1.7}
+.section{margin-top:30px}
+.section h2{font-size:20px}
+.rooms{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.room{background:#1d2440;border:1px solid #303959;padding:18px;border-radius:15px}
+.room b{display:block;margin-bottom:8px}
+.room small{color:#aeb7d0}
+.panel{background:#1d2440;padding:20px;border-radius:15px;margin-top:25px}
+.panel p{color:#c2c9dc;line-height:1.6}
+footer{text-align:center;padding:30px;color:#8992ad;font-size:13px}
+@media(max-width:420px){.rooms{grid-template-columns:1fr}.hero h1{font-size:27px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Sohbet<span>Durağı</span></div>
+  <button onclick="alert('Üyelik sistemi sonraki aşamada eklenecek!')">Giriş Yap</button>
+</header>
+<main>
+  <section class="hero">
+    <h1>Yeni dostlukların <span>adresi!</span></h1>
+    <p>Sohbet et, arkadaş edin, müzik dinle ve güzel vakit geçir. SohbetDurağı'na hoş geldin!</p>
+    <button onclick="alert('Kayıt sistemi sonraki aşamada eklenecek!')">Ücretsiz Aramıza Katıl</button>
+  </section>
+
+  <section class="section">
+    <h2>💬 Sohbet Odaları</h2>
+    <div class="rooms">
+      <div class="room"><b>🌍 Genel Sohbet</b><small>Herkesle tanış ve sohbet et</small></div>
+      <div class="room"><b>❤️ Dostluk Odası</b><small>Yeni arkadaşlıklar kur</small></div>
+      <div class="room"><b>🎵 Müzik Odası</b><small>Müzik ve eğlence</small></div>
+      <div class="room"><b>🌙 Gece Sohbeti</b><small>Geceye özel muhabbet</small></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>✨ SohbetDurağı'nda Neler Var?</h2>
+    <p>💬 Canlı yazılı sohbet</p>
+    <p>❤️ Özel mesajlaşma</p>
+    <p>🎙️ Sesli sohbet odaları</p>
+    <p>📹 Görüntülü görüşme</p>
+    <p>📻 Radyo ve müzik</p>
+    <p>📝 Forum ve arkadaşlık</p>
+  </section>
+</main>
+<footer>© 2026 SohbetDurağı · Yeni dostluklar burada başlar.</footer>
+</body>
+</html>
