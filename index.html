@@ -5,62 +5,301 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SohbetDurağı | Yeni Dostluklar</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101323;color:#fff;font-family:Arial,sans-serif}
-header{padding:20px;background:#191e35;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:23px;font-weight:bold;color:#a98bff}
-.logo span{color:#fff}
-button{border:0;border-radius:10px;padding:12px 17px;background:#8060ed;color:white;font-weight:bold}
-main{padding:22px;max-width:850px;margin:auto}
-.hero{text-align:center;padding:45px 10px}
-.hero h1{font-size:32px;margin-bottom:12px}
+body{margin:0;background:#101323;color:white;font-family:Arial,sans-serif}
+header{padding:18px 6%;background:#191e35;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:24px;font-weight:bold;color:#a98bff}
+.logo span{color:white}
+main{max-width:850px;margin:auto;padding:25px 18px}
+.hero{text-align:center;padding:30px 10px}
+.hero h1{font-size:34px}
 .hero h1 span{color:#a98bff}
-.hero p{color:#b7bdd2;line-height:1.7}
-.section{margin-top:30px}
-.section h2{font-size:20px}
-.rooms{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.room{background:#1d2440;border:1px solid #303959;padding:18px;border-radius:15px}
-.room b{display:block;margin-bottom:8px}
-.room small{color:#aeb7d0}
-.panel{background:#1d2440;padding:20px;border-radius:15px;margin-top:25px}
-.panel p{color:#c2c9dc;line-height:1.6}
-footer{text-align:center;padding:30px;color:#8992ad;font-size:13px}
-@media(max-width:420px){.rooms{grid-template-columns:1fr}.hero h1{font-size:27px}}
+.hero p{color:#bbc2d8;line-height:1.7}
+button{border:0;border-radius:10px;padding:13px 18px;background:#8060ed;color:white;font-weight:bold;cursor:pointer}
+button:hover{background:#967cf5}
+.card{background:#1d2440;border:1px solid #303959;border-radius:16px;padding:24px;max-width:520px;margin:20px auto}
+.card h2{text-align:center;color:#b49cff}
+input,select{width:100%;padding:13px;margin:7px 0 14px;border-radius:9px;border:1px solid #424d70;background:#11182d;color:white;font-size:15px}
+label{font-size:14px;color:#d8dcef}
+.full{width:100%}
+.switch{text-align:center;color:#bbc2d8;margin-top:18px;font-size:14px}
+.switch a{color:#b49cff;cursor:pointer}
+#message{padding:12px;border-radius:9px;margin-top:12px;display:none;line-height:1.5}
+.rooms{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.room{background:#1d2440;border:1px solid #303959;padding:18px;border-radius:13px}
+.room small{display:block;color:#b7bdd2;margin-top:8px}
+footer{text-align:center;color:#8992ad;padding:30px;font-size:13px}
+.hidden{display:none}
+@media(max-width:480px){.rooms{grid-template-columns:1fr}.hero h1{font-size:27px}}
 </style>
 </head>
 <body>
+
 <header>
-  <div class="logo">Sohbet<span>Durağı</span></div>
-  <button onclick="alert('Üyelik sistemi sonraki aşamada eklenecek!')">Giriş Yap</button>
+ <div class="logo">Sohbet<span>Durağı</span></div>
+ <button id="headerBtn" onclick="showLogin()">Giriş Yap</button>
 </header>
+
 <main>
-  <section class="hero">
-    <h1>Yeni dostlukların <span>adresi!</span></h1>
-    <p>Sohbet et, arkadaş edin, müzik dinle ve güzel vakit geçir. SohbetDurağı'na hoş geldin!</p>
-    <button onclick="alert('Kayıt sistemi sonraki aşamada eklenecek!')">Ücretsiz Aramıza Katıl</button>
-  </section>
+ <section class="hero">
+  <h1>Yeni dostlukların <span>adresi!</span></h1>
+  <p>Sohbet et, arkadaş edin ve güzel vakit geçir.<br>Sohbet Durağı'na hoş geldin!</p>
+ </section>
 
-  <section class="section">
-    <h2>💬 Sohbet Odaları</h2>
-    <div class="rooms">
-      <div class="room"><b>🌍 Genel Sohbet</b><small>Herkesle tanış ve sohbet et</small></div>
-      <div class="room"><b>❤️ Dostluk Odası</b><small>Yeni arkadaşlıklar kur</small></div>
-      <div class="room"><b>🎵 Müzik Odası</b><small>Müzik ve eğlence</small></div>
-      <div class="room"><b>🌙 Gece Sohbeti</b><small>Geceye özel muhabbet</small></div>
-    </div>
-  </section>
+ <section class="card" id="registerCard">
+  <h2>❤️ Aramıza Katıl</h2>
+  <form id="registerForm">
+   <label>Rumuz</label>
+   <input id="nickname" required maxlength="25" placeholder="Sohbette kullanacağın rumuz">
 
-  <section class="panel">
-    <h2>✨ SohbetDurağı'nda Neler Var?</h2>
-    <p>💬 Canlı yazılı sohbet</p>
-    <p>❤️ Özel mesajlaşma</p>
-    <p>🎙️ Sesli sohbet odaları</p>
-    <p>📹 Görüntülü görüşme</p>
-    <p>📻 Radyo ve müzik</p>
-    <p>📝 Forum ve arkadaşlık</p>
-  </section>
+   <label>Ad Soyad</label>
+   <input id="fullname" required maxlength="70" placeholder="Adın ve soyadın">
+
+   <label>E-posta</label>
+   <input id="email" type="email" required placeholder="ornek@mail.com">
+
+   <label>Şifre</label>
+   <input id="password" type="password" required minlength="8" placeholder="En az 8 karakter">
+
+   <label>Şifre Tekrar</label>
+   <input id="password2" type="password" required minlength="8" placeholder="Şifreni tekrar yaz">
+
+   <label>Doğum Tarihi</label>
+   <input id="birthdate" type="date" required>
+
+   <label>Cinsiyet</label>
+   <select id="gender" required>
+    <option value="">Seçiniz</option>
+    <option value="Kadın">Kadın</option>
+    <option value="Erkek">Erkek</option>
+   </select>
+
+   <label>Şehir</label>
+   <input id="city" required placeholder="Yaşadığın şehir">
+
+   <label>Ülke</label>
+   <input id="country" required value="Türkiye">
+
+   <button class="full" type="submit">Ücretsiz Kayıt Ol</button>
+  </form>
+  <div class="switch">Zaten hesabın var mı? <a onclick="showLogin()">Giriş Yap</a></div>
+ </section>
+
+ <section class="card hidden" id="loginCard">
+  <h2>Giriş Yap</h2>
+  <form id="loginForm">
+   <label>E-posta</label>
+   <input id="loginEmail" type="email" required placeholder="E-posta adresin">
+   <label>Şifre</label>
+   <input id="loginPassword" type="password" required placeholder="Şifren">
+   <button class="full" type="submit">Giriş Yap</button>
+  </form>
+  <div class="switch">Hesabın yok mu? <a onclick="showRegister()">Üye Ol</a></div>
+  <div class="switch"><a onclick="resetPassword()">Şifremi Unuttum</a></div>
+ </section>
+
+ <section class="card hidden" id="accountCard">
+  <h2>Hoş Geldin! 💜</h2>
+  <p id="welcome"></p>
+  <p id="profileInfo" style="color:#bbc2d8;line-height:1.8"></p>
+  <button class="full" onclick="logout()">Güvenli Çıkış Yap</button>
+ </section>
+
+ <div id="message" role="status"></div>
+
+ <section id="roomsSection">
+  <h2>💬 Sohbet Odaları</h2>
+  <div class="rooms">
+   <div class="room">🌍 <b>Genel Sohbet</b><small>Herkesle tanış ve sohbet et</small></div>
+   <div class="room">❤️ <b>Dostluk Odası</b><small>Yeni arkadaşlıklar kur</small></div>
+   <div class="room">🎵 <b>Müzik Odası</b><small>Müzik ve eğlence</small></div>
+   <div class="room">🌙 <b>Gece Sohbeti</b><small>Geceye özel muhabbet</small></div>
+  </div>
+ </section>
 </main>
+
 <footer>© 2026 SohbetDurağı · Yeni dostluklar burada başlar.</footer>
+
+<script>
+const SUPABASE_URL = "https://qgumdotboyuwlnsqarea.supabase.co";
+const SUPABASE_KEY = "sb_publishable_4wsD4Bda_x2KSXImI_1Hxw_r4GWPowU";
+
+const supabase = window.supabase.createClient(
+ SUPABASE_URL,
+ SUPABASE_KEY
+);
+
+const $ = id => document.getElementById(id);
+
+function notify(message, error=false) {
+ const box=$("message");
+ box.style.display="block";
+ box.style.background=error?"#642d3b":"#254d40";
+ box.textContent=message;
+ box.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function hideMessage() {
+ $("message").style.display="none";
+}
+
+function showRegister() {
+ hideMessage();
+ $("registerCard").classList.remove("hidden");
+ $("loginCard").classList.add("hidden");
+ $("accountCard").classList.add("hidden");
+ $("headerBtn").textContent="Giriş Yap";
+}
+
+function showLogin() {
+ hideMessage();
+ $("registerCard").classList.add("hidden");
+ $("loginCard").classList.remove("hidden");
+ $("accountCard").classList.add("hidden");
+ $("headerBtn").textContent="Üye Ol";
+ $("headerBtn").onclick=showRegister;
+}
+
+function showAccount(user) {
+ $("registerCard").classList.add("hidden");
+ $("loginCard").classList.add("hidden");
+ $("accountCard").classList.remove("hidden");
+ $("headerBtn").textContent="Hesabım";
+ $("headerBtn").onclick=()=>showAccount(user);
+
+ const p=user.user_metadata||{};
+ $("welcome").textContent="Merhaba, "+(p.nickname||"üyemiz")+"!";
+ $("profileInfo").textContent=
+  "Rumuz: "+(p.nickname||"-")+
+  "\nŞehir: "+(p.city||"-")+
+  "\nÜlke: "+(p.country||"-");
+ $("profileInfo").style.whiteSpace="pre-line";
+}
+
+$("registerForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ hideMessage();
+
+ const nickname=$("nickname").value.trim();
+ const fullname=$("fullname").value.trim();
+ const email=$("email").value.trim();
+ const password=$("password").value;
+ const password2=$("password2").value;
+ const birthdate=$("birthdate").value;
+ const gender=$("gender").value;
+ const city=$("city").value.trim();
+ const country=$("country").value.trim();
+
+ if(password!==password2){
+  notify("Şifreler birbiriyle eşleşmiyor.",true);
+  return;
+ }
+
+ if(new Date(birthdate)>=new Date()){
+  notify("Geçerli bir doğum tarihi gir.",true);
+  return;
+ }
+
+ if(nickname.length<3){
+  notify("Rumuz en az 3 karakter olmalı.",true);
+  return;
+ }
+
+ const btn=e.submitter;
+ btn.disabled=true;
+ btn.textContent="Kayıt oluşturuluyor...";
+
+ try {
+  const {data,error}=await supabase.auth.signUp({
+   email,
+   password,
+   options:{
+    data:{
+     nickname,
+     fullname,
+     birthdate,
+     gender,
+     city,
+     country
+    }
+   }
+  });
+
+  if(error) throw error;
+
+  if(data.session){
+   notify("Kaydın oluşturuldu! Sohbet Durağı'na hoş geldin.");
+   showAccount(data.user);
+  }else{
+   notify("Kayıt başarılı! E-posta adresine gönderilen doğrulama bağlantısına tıkla. Ardından giriş yapabilirsin.");
+   $("registerForm").reset();
+  }
+ }catch(error){
+  notify("Kayıt hatası: "+error.message,true);
+ }finally{
+  btn.disabled=false;
+  btn.textContent="Ücretsiz Kayıt Ol";
+ }
+});
+
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ hideMessage();
+ const btn=e.submitter;
+ btn.disabled=true;
+ btn.textContent="Giriş yapılıyor...";
+
+ try{
+  const {data,error}=await supabase.auth.signInWithPassword({
+   email:$("loginEmail").value.trim(),
+   password:$("loginPassword").value
+  });
+  if(error) throw error;
+  notify("Başarıyla giriş yaptın!");
+  showAccount(data.user);
+ }catch(error){
+  notify("Giriş yapılamadı: "+error.message,true);
+ }finally{
+  btn.disabled=false;
+  btn.textContent="Giriş Yap";
+ }
+});
+
+async function resetPassword(){
+ const email=$("loginEmail").value.trim();
+ if(!email){
+  notify("Önce e-posta adresini yaz.",true);
+  return;
+ }
+ const {error}=await supabase.auth.resetPasswordForEmail(email);
+ if(error) notify(error.message,true);
+ else notify("Şifre yenileme bağlantısı e-posta adresine gönderildi.");
+}
+
+async function logout(){
+ const {error}=await supabase.auth.signOut();
+ if(error){
+  notify(error.message,true);
+  return;
+ }
+ showRegister();
+ notify("Güvenli çıkış yaptın.");
+}
+
+supabase.auth.onAuthStateChange((event,session)=>{
+ if(session?.user){
+  showAccount(session.user);
+ }
+});
+
+(async()=>{
+ const {data}=await supabase.auth.getSession();
+ if(data.session){
+  showAccount(data.session.user);
+ }
+})();
+</script>
 </body>
 </html>
